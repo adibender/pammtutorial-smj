@@ -1,0 +1,29 @@
+## Instruction to reproduce analyses
+
+To reproduce the analyses presented in the paper, the following steps need to 
+be performed
+
+- Install the `packrat` package
+
+```
+install.packages("packrat")
+```
+
+- Run the code in the `graphics-tutorial.R` file. 
+
+Note that 
+- at the beginning `packrat` will try to install the packages with 
+the same version as used by the authors for the analysis, thus a stable 
+internet connection is required. 
+- the installed packages will be installed to a special library, thus you 
+need not worry, that packages in your global library will be overwritten
+- when running the `packrat::restore()` command for the first time, 
+installation of all packages and their dependencies can take some time. 
+
+
+To view the vignettes in the `pam` package as described in the paper, 
+you may need to additionaly run: 
+
+```
+devtools::install_github("adibener/pam", build_vignettes=TRUE)
+```

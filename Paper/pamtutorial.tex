@@ -1,0 +1,1247 @@
+%%%
+%%%  LaTeX template for publications
+%%%  to be submitted to Statistical Modelling
+%%%
+%%%  Prepared by Arnost Komarek
+%%%  Version 0.2 (20140214)
+%%%    0.2:  style of references slightly changed,
+%%%          support for use with bibTeX added
+\documentclass[submit]{smj}
+
+%%%%% PREAMBLE
+%%%%% =============================================================================
+
+%\usepackage[colorlinks=true, urlcolor=citecolor, linkcolor=citecolor, citecolor=citecolor]{hyperref}
+
+% tables
+\usepackage{pbox}
+\usepackage{booktabs}
+\usepackage{bm}
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
+
+% \newcommand{}{}
+\newcommand{\ra}{$\rightarrow$}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\tn}[1]{\textnormal{#1}}
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\nn}{\nonumber}
+\newcommand{\ub}{\underbrace}
+\newcommand{\tbf}[1]{\textbf{#1}}
+%% letters
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\bfx}{\mathbf{x}}
+\newcommand{\bfX}{\mathbf{X}}
+\newcommand{\bff}{\mathbf{f}}
+\newcommand{\bft}{\mathbf{t}}
+\newcommand{\bsbeta}{\boldsymbol{\beta}}
+\newcommand{\bsgamma}{\boldsymbol{\gamma}}
+\newcommand{\bslambda}{\boldsymbol{\lambda}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfz}{\mathbf{z}}
+\newcommand{\bfZ}{\mathbf{Z}}
+
+% ELRA
+\newcommand{\te}{\ensuremath{t_e}}
+\newcommand{\tlag}{t_{\text{lag}}}
+\newcommand{\tlead}{t_{\text{lead}}}
+\newcommand{\tw}{\mathcal{T}_e(j)}
+\newcommand{\Tw}[1]{\mathcal{T}^{#1}}
+\newcommand{\tilt}{\tilde{t}}
+\newcommand{\Zi}{\ensuremath{\mathcal{Z}_i(t)}}
+\newcommand{\CI}{\ensuremath{C_{I}}}
+\newcommand{\CII}{\ensuremath{C_{II}}}
+\newcommand{\CIII}{\ensuremath{C_{III}}}
+\newcommand{\gCII}{\ensuremath{g_{_{\CII}}}}
+\newcommand{\gCIII}{\ensuremath{g_{_{\CIII}}}}
+\newcommand{\gammaEst}{\hat{\gamma}_g^r}
+\newcommand{\hatEj}{\hat{e}_{j, r}}
+%% new operators
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rpexp}{\operatorname{rpexp}}
+%% font types
+% R symbol
+\newcommand{\Rlang}{\textbf{\textsf{R}}}
+\newcommand{\code}[1]{{\small \texttt{#1}}}
+
+%% table customization
+\newcommand\Tstrut{\rule{0pt}{2.6ex}}         % = `top' strut
+\newcommand\Bstrut{\rule{0pt}{2.6ex}}
+% fixed column widths
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\def\T{{ \mathrm{\scriptscriptstyle T} }}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\orange}[1]{\textcolor{orange}{#1}}
+\usepackage{todonotes}
+
+
+%%% Place for putting personal \usepackage and \newcommand commands
+%%% Note that some packages are loaded automatically
+%%% with the smj class.
+%%% These include: graphicx, color, fancyvrb, amsmath, amssymb, calc, upquote (if available), natbib, url, hyperref.
+%%%
+%%% Please, specify all your personal definitions, newcommand etc. here
+%%% and not inside the main body of the text.
+%%% -------------------------------------------------------------------------------
+%\usepackage{PACKAGE}
+%\newcommand{MYCOMMAND}{...}
+
+
+%%% Identification of authors
+%%% -------------------------------------------------------------------------------
+%%% For each author, provide his/her first name, surname and possibly initials
+%%% of the middle names.
+%%%
+%%% Use \Affil{NUMBER} following the author name for each unique affiliation,
+%%% where NUMBER is integer starting from 1 to the number of affiliations needed
+%%% in this paper. In case of multiple affiliations of one author, use
+%%% \Affil{NUMBER1,}\Affil{NUMBER2,}\Affil{NUMBER3} following the author's name
+%%% as it is done for Emmanuel Lesaffre below.
+
+  %%% For papers with 3 or more authors:
+  %%%  in \Author{}, separate the authors with commas, the last author is separated by `and' without a comma,
+  %%%  in \AuthorRunning{}, use the full name of the first author followed by \textrm{et al.}.
+\Author{Andreas Bender\Affil{1},
+        Andreas Groll\Affil{2},
+        and Fabian Scheipl\Affil{1}
+        %and Emmanuel Lesaffre\Affil{4,}\Affil{5}
+}
+\AuthorRunning{Andreas Bender \textrm{et al.}}
+
+  %%% For papers with 2 authors:
+  %%%  in both \Author{} and \AuthorRunning{},
+  %%%  use the full names of both authors separated by 'and' without a comma.
+%\Author{Arno\v{s}t Kom\'arek\Affil{1} and Brian Marx\Affil{2}}
+%\AuthorRunning{Arno\v{s}t Kom\'arek and Brian Marx}
+
+  %%% For papers with 1 author:
+  %%%  in both \Author{} and \AuthorRunning{},
+  %%%  use the full name the author.
+%\Author{Arno\v{s}t Kom\'arek\Affil{1}}
+%\AuthorRunning{Arno\v{s}t Kom\'arek}
+
+
+%%% Affiliations as they should appear on the title page.
+%%% -------------------------------------------------------------------------------
+%%% Do not provide the full addresses here.
+%%% The ordering inside \Affiliations{} should correspond to NUMBERs used
+%%% in \Affil{} commands in \Author{}
+\Affiliations{
+\item Department of Statistics,
+	Ludwig-Maximilians-Universit\"at,
+	M\"unchen,
+      	Germany
+\item Chairs of Statistics and Econometrics,
+      Georg-August-Universit\"at
+       G\"ottingen,
+      Germany
+}   %% end \Affiliations
+
+
+%%% Postal, e-mail address, phone and fax of the corresponding author (not necessarily the first author).
+%%% ------------------------------------------------------------------------------------------------------
+%%% Use command \CorrAddress{} to provide a full postal address of the
+%%% corresponding author in the form
+%%% "Firstname Lastname, Department, University, Street 1, ZIP City, Country"
+%%% Use command \CorrEmail{} to provide an e-mail address of the corresponding author.
+%%% Use command \CorrPhone{} to provide a phone number (including the country code!) of the corresponding author.
+%%% Use command \CorrFax{} to provide a fax number (including the country code!) of the corresponding author.
+\CorrAddress{Andreas Groll,
+Chairs of Statistics and Econometrics,
+      Georg-August-Universit\"at,
+       Humboldtallee 3,
+       37073 G\"ottingen,
+      Germany}
+\CorrEmail{agroll@uni-goettingen.de}
+\CorrPhone{(+49)\;551\;39\;27237}
+\CorrFax{(+49)\;551\;39\;27279}
+
+
+%%% Title and a short title (to be used as a running header) of the paper
+%%% -------------------------------------------------------------------------------
+
+\Title{A generalized additive model approach to time-to-event analysis}
+\TitleRunning{Time-varying coefficient models for time-to-event data}
+
+
+%%% Abstract
+%%% -------------------------------------------------------------------------------
+\Abstract{
+This tutorial paper demonstrates how
+time-to-event data can be modeled in a very flexible way by taking advantage of
+advanced inference methods that have recently been developed for generalized
+additive mixed models.
+In particular, we describe the necessary pre-processing steps for transforming
+such data into a suitable format and show how a variety of effects,
+including a smooth nonlinear baseline hazard and potentially nonlinear and nonlinearly
+time-varying effects can be estimated and interpreted.
+We also present useful graphical tools for model evaluation and interpretation of the estimated effects.
+Throughout, we demonstrate this approach using various application examples.
+The paper is accompanied by a new \Rlang-package called \code{pammtools}
+implementing all of the tools described here.}
+
+
+%%% Key words
+%%% -------------------------------------------------------------------------------
+\Keywords{
+Cox model; time-varying coefficients; piece-wise exponential model; penalization; survival analysis; splines
+}
+
+
+%%%%% MAIN BODY
+%%%%% =============================================================================
+\begin{document}
+
+
+%%% Title page
+%%% -------------------------------------------------------------------------------
+%%% Use command\maketitle to produce the title page.
+\maketitle
+
+%%% Main text
+%%% ------------------------------------------
+\section{Introduction} \label{sec:intro}
+In this tutorial, we introduce a general framework for fitting time-to-event
+data, that is, the time until an event occurs, denoted by (the random variable)
+$T$. Classical application examples, which we will discuss in more detail later,
+include time until death of cancer patients and time until convicts are rearrested.
+When modeling such data, the central property of interest is usually
+the survival function $S(t):=\mathbb{P}(T > t)$, i.e., the
+probability for an event occurring after time $t$. The modeling of such data,
+however, generally focuses on the so-called hazard rate, in the following denoted
+by $\lambda(t)$, which represents the instantaneous (normalized)
+risk of having an event in $t$, given no event occurred up to time $t$.
+The corresponding mathematical, rather technical definition of the hazard rate,
+is given as follows:
+\begin{equation}
+  \lambda(t) := \lim\limits_{\Delta t \to 0} \frac{P(t\leq T <t+\Delta t | T\geq t)}{\Delta t}\, .
+\end{equation}
+In the following, we demonstrate how a large class of models for time-to-event
+data can be represented as generalized additive mixed models (GAMMs).
+Using this representation, which requires a specific transformation of the
+original time-to-event data (see Section \ref{ssec:DataTrafo} for details), all
+the methods and versatile software implementations available for GAMMs, many
+of which are covered in this special issue, can be applied to survival analysis.
+In this way, the specification and penalized estimation of, for example,
+nonlinear, spatial or random effects for time-to-event data becomes routine and
+rather easy to do, equally so for (nonlinearly) time-varying effects.
+
+The representation described here is not novel and known in the literature as
+Piece-wise Exponential Models (PEMs).
+Under certain assumptions, PEMs are essentially Poisson Generalized Linear Models
+(GLMs; \citealp{Holford1980, Laird1981, Friedman1982}) with likelihoods
+proportional to the (partial) likelihood of a corresponding Cox model
+(see \citealp{Cox:72} and equation \eqref{eq:ph}).
+The PEM representation was popular temporarily when implementations of GLMs were more readily available in different statistical software packages compared to
+implementations of dedicated algorithms for survival models
+\citep{whitehead1980, Clayton1983},
+but most research in the field of survival analysis has concentrated on the
+Cox model and its extensions or on models based on the counting process
+representation of time-to-event data \citep{And-etal:92,Martinussen2006}.
+
+The PEM representation requires a partition of the follow-up time into a finite number of intervals
+and assumes that hazard rates are piece-wise constant in each of these intervals.
+The arbitrary choice of cut-points defining this partition has often been a point
+of criticism regarding PEMs. If the number of cut-points is too small, the step
+function approximation of the hazard rate may be too crude. A large number of cut-points, on the other hand, may lead to over-fitting and inefficient estimation with
+unstable estimates, as the baseline hazard requires the estimation of one
+parameter per interval. We are convinced, however, that
+the usage of PEMs remains desirable, especially in situations where one wants to
+take advantage of the methodological \citep{Wood:2011} and algorithmic
+\citep{Wood2017}
+advances that have been made for GAMMs over the last years, particularly whenever
+inclusion of nonlinear, multivariate, spatial or spatio-temporal, or random
+effects is required.
+Even more importantly, the current state of the art for additive models
+allows analysts to largely avoid the ``arbitrary cut-points'' problem of
+classical PEMs. Analysts can simply use a
+large number of cut-points and estimate the baseline hazard and
+other time-varying effects semiparametrically, while avoiding over-fitting and instability by
+means of penalization. We call this extension of the PEM a Piece-wise
+Exponential Additive Mixed Model (PAMM).
+
+This idea has been utilized in many recent publications.
+For example, \cite{Rodriguez2013} use this approach to discuss model building
+strategies including double shrinkage methods. \cite{Argyropoulos2015} discuss a
+variant of this method, which they call Poisson generalized additive model using a
+Gau{\ss}-Lobato quadrature rule to partition the follow-up. They also give a
+thorough overview of methods for flexible parametric inference for time-to-event data
+as well as an overview of previous research on the Poisson model for survival
+analysis.
+\cite{Sennhenn2016} use PAMMs to fit LASSO-penalized multi-state
+models, while \cite{Gasparrini2017} extend distributed lag nonlinear models known
+from time-series analysis to the analysis of time-to-event data.
+Despite these recent publications and applications, the general
+idea of using GAMMs in the context of survival analysis is still not widely known
+by practitioners in substantive sciences and the application of PAMMs is hindered
+by the lack of readily available clear-cut instructions on practical details
+like data transformation and dedicated software that facilitates preparation and
+evaluation of such models.
+
+Thus, the goal of this tutorial is to introduce and describe the general idea
+of the classical PEM as well as its semiparametric extension, the PAMM,
+and illustrate their use, starting from data transformation and standard models
+to more advanced applications. This tutorial is aimed at
+practitioners and focuses on building intuition and providing applicable advice rather than
+methodological detail and mathematical rigor. References for further reading
+are provided throughout.
+All results presented in this tutorial
+can be reproduced using the instructions and code in the vignettes
+of the add-on package \code{pammtools} \citep{Ben:2017}, as described in Section
+\ref{sec:software}.
+
+In the following sections, we give a brief introduction to the piece-wise
+exponential model (Section~\ref{ssec:pem}) and its mathematical representation
+as a Poisson GLM (Section~\ref{ssec:PEMpoisson}), as well as the data
+transformation required for its estimation (Section~\ref{ssec:DataTrafo}).
+We then describe the transition from PEMs to PAMMs in Section~\ref{ssec:pam} and
+briefly outline the advantages of this approach. In Section~\ref{sec:Applications},
+several examples for the application of PAMMs are provided, ranging from very
+simple (baseline hazard, time-constant effects) to more advanced models
+(stratified baseline hazards, nonlinearly time-varying effects,~etc.).
+
+
+%%%% PEM
+\section{Piece-wise Exponential (Additive) Models}\label{ssec:pem}
+
+PEMs represent an alternative to classical approaches for continuous time-to-event data like, e.g., the Cox model. If the partition of the follow-up time is selected with care, PEMs allow analysts to take advantage of all of the methodological and algorithmic advances that have been made for GAMMs over the last decades.
+In particular, it is fairly easy to include diverse types of effects such as nonlinear, multivariate, spatial, spatio-temporal or random effects in existing software packages for GAMMs.
+
+Figure~\ref{fig:weibullExample} illustrates the basic idea of a PEM for
+time-to-event data by applying it to survival times drawn from a Weibull distribution.
+To estimate the true underlying Weibull hazard rate (left panel), the
+follow-up is partitioned into a fixed number of intervals (here $J=5$) with
+interval cut-points $\kappa_0=0 < \ldots < \kappa_{J}=4$ (mid panel) and
+a constant hazard is estimated for each interval (right panel). Thus the name
+piece-wise \emph{exponential} -- the hazard rate of an exponential
+distribution is constant over time.
+The approximation in Figure \ref{fig:weibullExample} appears rather crude,
+but given enough cut-points, PEM and PAMM estimates are
+very similar (or even equivalent) to Cox regression estimates, as demonstrated
+in Section \ref{sec:Applications}.
+
+\begin{figure}[!hb]
+\includegraphics[width=1\textwidth]{weibullHazard.pdf}
+\caption{Hazard rate of a Weibull distribution (left panel);
+partitioning of the follow-up into $J=5$ intervals (mid panel);
+estimate of the hazard rate via interval-specific piece-wise constant
+hazards, obtained by fitting a PEM to the data (right panel).}
+\label{fig:weibullExample}
+\end{figure}
+The difference
+between a PEM and a PAMM then results from the different approaches for the
+estimation of the baseline hazard and other smooth, potentially time-varying effects.
+It is important to note that although PAMMs model
+the baseline hazard using a smooth, nonlinear function, the resulting (estimated)
+hazard rate is still piece-wise constant (see Section~\ref{ssec:pam}).
+
+
+\subsection{The Poisson-Likelihood of a PEM}
+\label{ssec:PEMpoisson}
+Following \cite{BenEtAl:16}, we now introduce PEMs more formally.
+We start with a general proportional hazards (PH) model given by
+\begin{equation}\label{eq:ph}
+\lambda_i(t|\bfx_i) = \lambda_0(t)\exp (\bfx_i^{\T}\bsbeta)\,,\quad\quad i=1,\ldots, n,
+\end{equation}
+where $n$ is the number of
+subjects under study,  $\bfx_i=(x_{i,1}, \dots, x_{i,p})^{\T}$ is
+the row-vector of time-constant covariates for subject $i$, and $\bsbeta$ the vector of corresponding regression coefficients.
+In the framework of the Cox-PH model, the parameters
+$\bsbeta$ are estimated via partial likelihood while the baseline hazard $\lambda_0(t)$ is
+estimated non-parametrically via the Nelson-Aaalen estimator.
+A PEM is obtained by partitioning the follow-up
+period $(0, t_{\max}]$, where $t_{\max}$ denotes the maximal (observed) follow-up time, into $J$ intervals.
+To this end, we define $J+1$
+cut-points $0 = \kappa_0 < \ldots < \kappa_J = t_{\max}$.
+The $j$-th interval is then given by $(\kappa_{j-1}, \kappa_j]$. Assuming a constant hazard rate within each interval $j$, i.e.,\ $\lambda_0(t) = \lambda_j \,\forall t\in (\kappa_{j-1}, \kappa_j], t > 0$, \eqref{eq:ph} simplifies to
+\begin{equation}\label{eq:pemLogLinear}
+\lambda_i(t|\bfx_i) =
+  \lambda_j\exp(\bfx_i^{\T}\bsbeta)\,,\quad \forall\ t\in (\kappa_ {j-1}, \kappa_j].
+\end{equation}
+If the underlying time-to-event data is structured in a certain way, i.e., containing
+event indicators $\delta_{ij}$ and offsets $o_{ij}$ for all intervals
+$j$ in which subject $i$ is under risk,
+%and setting $\lambda_i(t|\bfx_i):=\lambda_{ij}$,
+it can be shown (\citealp{Friedman1982}), that the likelihood of the Poisson
+regression model
+\begin{equation}\label{eq:poissonLogLinear}
+\mathbb{E}(\delta_{ij}|\bfx_i) =
+ \exp(\log(\lambda_{j}) + \bfx_i^{\T}\bsbeta + o_ {ij})
+\end{equation}
+is proportional to the one of model \eqref{eq:pemLogLinear}.
+Consequently, the two models are equivalent with respect to the ML-estimator of
+$\bsbeta$. In practice, when fitting the respective
+Poisson GLM, $\log(\lambda_{j})$ is incorporated in the linear predictor
+$\bfx_i^{\T}\bsbeta$, such that the design matrix $\bfX$ contains $J$ additional
+dummy coded columns, where column $j$ takes value 1 in rows representing observations in interval
+$(\kappa_{j-1}, \kappa_{j}]$ and 0 otherwise.
+The $o_{ij}$ are simply added to the linear predictor as a so-called \emph{offset},
+which is usually of little interest, but note that the offset contains the
+information on the actual observed survival time in each interval and thus
+makes the PEM a model for continuous time-to-event data, such that
+\eqref{eq:poissonLogLinear} can be reformulated as
+$\lambda_i(t|\bfx_i)=\frac{\mathbb{E}(\delta_{ij}|\bfx_i)}{t_{ij}}=\lambda_j\exp(\bfx_i'\bsbeta)$
+(where $t_{ij}=\exp(o_{ij})$, cf. Section \ref{ssec:DataTrafo}).
+For the remainder of the paper we will omit the offset $o_{ij}$ from
+the model specification, but it's important to stress that the offset must be
+included at the estimation stage.
+
+Note that if the survival time is in fact discrete, was only observed on a
+discrete grid, or can be reasonably discretized without loss of information,
+most of the methods and strategies presented here are equally applicable
+to discrete-time models. These are described in detail in the tutorial by
+\citet{BerSch:2017}, which is also part of this special issue.
+
+In the next section, we illustrate how to transform time-to-event data
+to be in accordance with the model specification~\eqref{eq:poissonLogLinear} from above.
+
+
+%\clearpage
+\subsection{Data Transformation}\label{ssec:DataTrafo}
+To fit the PEM introduced in the previous section, time-to-event data needs
+to be transformed and restructured in a specific way.
+First, for each subject $i$ let $T_i$ denote its true survival time and $C_i$
+its (non-informative) censoring time. Then, $t_i:=\min(T_i, C_i)$ represents the
+observed right-censored time under risk for subject $i$. Given intervals
+$1,\ldots, J$ and observed right-censored times $t_i$, for each time interval
+$j$ that subject $i$ is under risk one has to create
+\begin{enumerate}
+\item[(a)] the binary response $\delta_{ij}$ as interval-specific event indicator, with $\delta_{ij}=1$ if both, $\{t_i \in (\kappa_{j-1}, \kappa_j]\}$ and
+$\{t_i = T_i\}$, and $\delta_{ij}=0$ else\,;
+\item[(b)] the offset $o_{ij}=\log(t_{ij})$, based on the time subject $i$ is
+under risk in interval $j$, which is given by
+$t_{ij}$ $=\min(t_i - \kappa_{j-1}, \kappa_{j} - \kappa_{j-1})$.
+\end{enumerate}
+We illustrate the data transformation here for the simple case of survival
+data without covariates.
+Consider, for instance, the survival times of the two subjects %$i=1$ and $i=2$
+in Table~\ref{tab:exampleData}. The same data in the format of
+piece-wise exponential data (PED) is shown in Table~\ref{tab:example:PED}.
+Each subject has as many entries (rows) as the number of intervals for which
+the subject is included in the risk set. Note that these rows
+can then be treated as independent (given covariates) within the estimation scheme. The intervals $(\kappa_{j-1}, \kappa_j]$,
+$j=1,\ldots, J$ are specified by the user. Here we chose equidistant intervals
+of length $0.8$ as in Figure~\ref{fig:weibullExample}. Readers familiar with
+survival analysis will recognize this data structure to be very similar to the
+``start -- stop'' format used to fit time-varying effects or effects of
+time-dependent covariates in the extended Cox regression model \citep{Thomas2014},
+with $\kappa_{j-1}$ and $\kappa_j$ as start and stop times, respectively.
+Further details and illustrations on transforming conventional time-to-event data
+into the format suitable to fit PEMs are provided in the \texttt{data-transformation}
+vignette (cf. Section \ref{sec:software} for details).
+\begin{table}[!b]
+\begin{center}
+
+\caption{Example of (conventional) time-to-event data for two subjects, $i\in \{1,2\}$.
+Subject $i=1$ is censored at $t_1=0.5$ and subject $i=2$ experienced an event at
+$t_2=2.7$.}
+\vspace{15pt}
+\label{tab:exampleData}
+\begin{tabular}{r|r|r}
+$i$ & $t_i$ & $\delta_i$\\
+\hline
+1 & 0.5   & 0\\
+2 & 2.7   & 1 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}%[!t]
+\begin{center}
+\caption{Data in the piece-wise exponential format with one row per interval
+in which a subject was in the risk set. Intervals are defined by $J+1$ cut-points
+$\kappa_0=0 < \ldots < \kappa_J=4$; $\delta_{ij}$ is the status of subject
+$i$ in interval $j$, $t_{ij}$ the time subject $i$ spent in interval $j$;
+the offset is denoted by $o_{ij}=\log(t_{ij})$.}
+\label{tab:example:PED}
+\vspace{15pt}
+\begin{tabular}{r|r|r|r|r|r}
+$i$ & $j$ & ($\kappa_{j-1}, \kappa_{j}]$ & $\delta_{ij}$ & $t_{ij}$ & $o_{ij}=\log(t_{ij})$\\
+     \hline
+1 & 1 & $(0, 0.8]$    & 0 & 0.5 & $\log(0.5)=-0.69$  \\
+2 & 1 & $(0, 0.8]$    & 0 & 0.8 & $\log(0.8)=-0.22$  \\
+2 & 2 & $(0.8, 1.6]$  & 0 & 0.8 & $\log(0.8)=-0.22$  \\
+2 & 3 & $(1.6, 2.4] $ & 0 & 0.8 & $\log(0.8)=-0.22$  \\
+2 & 4 & $(2.4, 3.2] $ & 1 & 0.3 & $\log(0.3)=-1.20$  \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Note that another major advantage of this data structure is that
+(piece-wise constant) time-dependent covariates (TDCs), i.e., covariates that
+change their value over the follow-up period, can be incorporated naturally.
+In this case, the interval cut-points $\kappa_j$ must additionally include all
+time-points at which changes in the TDC are recorded and model
+\eqref{eq:pemLogLinear} is extended to the form
+$\lambda_i(t|\bfx_{ij})=\lambda_{j}\exp(\bfx_{ij}^{\T}\bsbeta)$
+(cf. Section \ref{subsec:tdc}).
+Furthermore, time-varying effects, where the association between a covariate and the hazard rate is allowed to change over the follow-up, can be incorporated by
+including an interaction term of the covariate with time $t$
+in the linear predictor (for more details, see Sections~\ref{sssec:linNLtv} and
+ \ref{sssec:nlNLtv}). This requires defining a TDC for
+time itself, for example, by setting $t_j := \kappa_j$ in the respective rows of the transformed data set.
+
+Similarly, estimation of left-truncated data can be easily accommodated by
+excluding intervals before the respective left-truncation times as described
+by \cite{Guo1993}.
+
+%\clearpage
+\subsection{Piece-wise Exponential Additive Mixed Model}\label{ssec:pam}
+Model~\eqref{eq:poissonLogLinear} can be extended to include nonlinear or
+smoothly time-varying effects of time-constant or time-dependent covariates (TDCs)
+by incorporating semiparametric effects, i.e., moving from a Poisson GLM
+representation to a Poisson GAMM representation. In reference to the acronyms for
+piece-wise exponential models (PEMs) and generalized additive models (GAMs) we
+denote this model type by %~\eqref{eq:pam}
+PAMM (\emph{p}iece-wise exponential \emph{a}dditive \emph{m}odel).
+For a general PAMM, the hazard rate at time $t$ for individual $i$ with covariate
+vector $\bfx_i$ is given by
+\begin{align}\label{eq:pam}
+  \lambda_i(t|\bfx_i)
+    & = \exp
+    \left(
+      f_0(t_j) + \sum_{k=1}^p f_k(x_{i,k}, t_j) + b_{\ell_i}
+    \right),\quad \forall\ t\in (\kappa_ {j-1}, \kappa_j]\,,
+\end{align}
+where $f_0(t_j)$ represents the log-baseline hazard rate (cf. Section~\ref{sssec:baseline}) and $f_k(x_{i,k}, t_j)$, $k=1,\ldots,p$, denotes very general effect types, possibly of different complexity and potentially depending on both a covariate and time. In particular, smooth
+nonlinear and smoothly time-varying effects (cf. Section~\ref{sssec:tvEffects}) of
+the time-constant confounders $\bfx_{\bullet k}=(x_{1,k},\ldots,x_{n,k})^{\T}$ are included.
+The time variable $t_j$ is constant over each interval to ensure that
+the estimated hazard rates still correspond to a piece-wise exponential model.
+Typical choices are interval end-points $t_j = \kappa_j\,\forall\, t \in (\kappa_{j-1}, \kappa_j]$, or
+interval mid-points $t_j = \frac{\kappa_j + \kappa_{j-1}}{2} \,\forall\, t \in (\kappa_{j-1}, \kappa_j]$.
+Additionally, $b_{\ell_i}$ denote random intercept terms (Gaussian frailty),
+where $\ell_i,\ell=1,\ldots, L$ is the cluster to which subject $i$ belongs.
+We do not discuss these terms in this tutorial, but an example application is
+provided in the \code{pam} package vignette \code{frailty} (cf. Table
+\ref{tab:vignettes}).
+
+A common way to specify unknown smooth functions like $f(x, t_j)$ is to
+use splines, which are represented by a weighted sum of $M$ basis functions.
+A univariate function, such as the baseline hazard $f_0(t_j)$, can be expanded as
+$f_{0}(t_j)=\sum_{m=1}^{M}\gamma_{0m}B_m(t_j),$ with {\it spline coefficients}
+$\gamma_{0m}$ and \emph{basis functions} $B_m(t_j)$
+(for a detailed description of splines, see, for example, \citealp{RupWanCar:2003}).
+Increasing the number of basis functions for such terms increases their
+flexibility and also the danger of overfitting, while
+an excessively low number of basis functions might not provide the necessary flexibility. In
+PAMMs, this trade-off is resolved by specifying a relatively large number of
+basis functions and then \emph{penalizing} ``wiggliness'' of the estimate
+(e.g., by penalizing the difference between neighboring basis coefficients
+$\gamma$, $\gamma'$ in P-Splines; \citealp{Eilers1996}).
+Technically, the penalization strength is controlled by separate smoothing parameters
+for each additive term, which are estimated simultaneously with
+all other model coefficients, e.g., using restricted maximum likelihood (REML)
+estimation \citep{Wood:2011}. This has the advantage that no strong assumptions
+about the shapes of such smooth effects are necessary in order to specify the
+model. Instead, they are estimated based on the data.
+
+
+This idea can be extended to bivariate interaction surfaces, such as the
+$f_k(x_{i,k}, t_j)$ terms in equation~\eqref{eq:pam}, through the use of tensor product bases of the form
+$f(x_{i,k},t_j)=\sum_{m=1}^M\sum_{\ell=1}^{L}\gamma_{m\ell}B_m(x_{i,k})B_\ell(t_j)$.
+By specifying an interaction of covariates $\bfx_{\bullet k}$ with the
+(discretized) time $t_j$ we can model (piece-wise constant) time-varying effects
+of different grades of complexity, the most common of which are summarized in
+Table~\ref{tab:tvEffects}.
+Section~\ref{ssec:timevary} provides examples for most of these effects illustrated
+on widely known data sets. Note here that the effect types in Table~\ref{tab:tvEffects} are merely a small subset of potential effect types. Further extensions like spatial effects or random effects (frailties) can be incorporated into \eqref{eq:pam} just as easily but they are beyond the scope of this tutorial.
+
+Next (cf. Section \ref{sssec:baseline}), we illustrate the estimation of the
+baseline hazard with PEMs and PAMMs and compare the results with the respective
+Nelson-Aalen estimates.
+
+\begin{table}[!hbtp]
+\caption{Overview of potentially smooth nonlinear and/or smoothly
+time-varying effect specifications in the analysis of time-to-event data.}
+\label{tab:tvEffects}
+\vspace{10pt}
+\begin{center}
+\begin{tabular}{rl}
+  Effect specification & Description\\
+  \hline
+  $\beta_k x_{i,k} + \beta_{k:t_j}\cdot x_{i,k} \cdot t_j$ : & Linear, linearly
+  time-varying effect\\
+  $f_k(x_{i,k})$     : & Smooth nonlinear, time-constant effect\\
+  $f_k(x_{i,k})\cdot t_j$ : & Smooth, linearly time-varying effect\\
+  $x_{i,k}\cdot f_k(t_j)$ : & Linear, smoothly time-varying effect\\
+  $f_k(x_{i,k}, t_j)$     : & Smooth, smoothly time-varying effect\\
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\subsubsection{Baseline hazard}\label{sssec:baseline}
+In the original definition of PEMs in \eqref{eq:poissonLogLinear}, the
+baseline hazard is modeled by a step function with interval-specific hazards
+$\lambda_j$, which are estimated by including dummy variables for each interval
+in the design matrix. This has two major drawbacks:
+\vspace{-10pt}
+\begin{enumerate}
+\setlength{\itemsep}{-5pt}
+\item[1.)] the choice of the interval cut-points as well as the number of
+intervals is rather arbitrary \citep[c.f.][]{Demarqui2008};
+\item[2.)] if a large number of cut-points is used, (too) many parameters need
+to be estimated and the individual estimates $\hat{\lambda}_j$ can become unstable.
+If the estimation of time-varying effects is required as well,
+this problem is exacerbated further.
+\end{enumerate}
+In PAMMs, the baseline hazard is modeled as a regression spline over time, using
+a suitably discretized time variable $t_j$ defined as above.
+Choosing a sufficiently large number of intervals and spline basis functions,
+the baseline hazard can then be estimated very flexibly.
+At the same time, over-fitting is avoided via
+penalization and, hence, smooth and stable estimates are obtained.
+
+In many real life applications, the (baseline) hazard changes quickly at the
+beginning of the follow-up and less so towards the end. In these cases,
+a fixed penalty for the whole spline may be to restrictive, thus an estimation
+of the baseline hazard using adaptive spline smooths, where the penalty applied
+to the basis-coefficients can itself change over the course of the follow-up
+(i.e., smaller penalty at the beginning, stronger penalty towards the end) may
+be preferable \citep{Wood:2011}. This, however, also implies a higher computational
+burden.
+
+
+\subsubsection{Smooth nonlinear, smoothly time-varying effects}\label{sssec:tvEffects}
+
+The major advantage of PAMMs over currently available implementations of Cox-type or Aalen-type models is that the entire flexibility and
+methodological progress of GAMMs can be employed with regard to covariate effects,
+not only to the reliable and smooth estimation of baseline hazard rates.
+The summands $f_k(x_{i,k}, t_j)$ in the second term in
+equation~\eqref{eq:pam} can represent a variety of different effect types, ranging
+from simple linear, time-constant effects $x_{i,k}\beta_k$ to nonlinear,
+time-constant effects $f_k(x_{i,k})$ and nonlinear and smoothly time-varying effects
+$f_k(x_{i,k}, t_j)$.
+Table~\ref{tab:tvEffects} summarizes the most common and important of these effect types.
+Time-varying effects are modeled as interaction terms between
+the covariate of interest, i.e.,\ $\bfx_{\bullet k}$, and the discretized time $t_j$,
+i.e.,\ the corresponding interval end- or mid-points.
+All of these effect types can be specified fairly easily by the practitioner, for
+example, within the syntax of the \texttt{gam} function from the
+\Rlang-package \texttt{mgcv} \citep{Wood2017}, if the data is given in the format
+of Table~\ref{tab:example:PED} complemented by covariate information.
+
+
+
+%\clearpage
+\section{Applications and Illustrations}\label{sec:Applications}
+
+In the following section we describe and illustrate the application of PAMMs
+to various settings in time-to-event analysis
+and compare the estimates obtained from PAMMs with other established approaches on real data examples.
+For illustration, we mainly use a follow-up restricted ($t\leq 400)$ subset of the
+Veterans' Administration lung cancer study (\citealp{KalPre:80}),
+which is available in the \texttt{survival} \citep{The:2015} package and is a widely used data example in the context of time-to-event analysis.
+In this study, males with advanced inoperable lung cancer were randomized to one
+of two treatment regimens for lung cancer, either standard or novel chemotherapy,
+represented by the binary variable {\it trt}. In addition, the data set contains
+several time-constant covariates, namely the {\-it celltype} (categorical) of the
+tumor, the {\it age} (in years) at the beginning of treatment, the Karnofsky
+performance score ({\it karno}; 100=good) and a dummy variable {\it prior}
+indicating whether there had been a prior therapy (0=no, 1=yes) along with
+survival {\it time} and censoring {\it status} (0=censored, 1=event). Within the scope of this study it is of major interest
+how the two different treatments in combination with the other covariates affect the survival of lung cancer patients. An excerpt
+of the data can be found in Table~\ref{tab:vet:raw}.
+
+\begin{table}[ht]
+\centering
+\caption{Raw structure of the Veterans' Administration lung cancer study data}
+\label{tab:vet:raw}
+\vspace{5pt}
+\begin{tabular}{rrrrrrrr}
+  \hline
+trt & celltype  & time & status & karno & age & prior \\
+\hline
+1   & large     & 19   & 1      & 30    & 39  & 1 \\
+1   & squamous  & 231  & 0      & 50    & 52  & 1 \\
+0   & large     & 156  & 1      & 70    & 66  & 0 \\
+0   & smallcell & 51   & 1      & 60    & 67  & 0 \\
+1   & smallcell & 95   & 1      & 70    & 61  & 0 \\
+1   & large     & 133  & 1      & 75    & 65  & 0 \\
+   \hline
+\end{tabular}\end{table}
+
+We omit the respective \Rlang-code here for clarity and brevity, however,
+each section refers to a dedicated vignette in the \code{pammtools} package that
+contains code showing the practical work flow in full detail
+(cf. Section \ref{sec:software}).
+
+\subsection{Estimating the Baseline Hazard}\label{sec:app:base}
+First, we demonstrate how to fit and visualize simple baseline models using the
+\code{pammtools} package. We use both a PEM and a PAM and compare the results of
+the
+estimated baseline hazard to the conventional Nelson-Aalen estimator, which can be
+obtained e.g.\ by applying the \texttt{coxph} function from the \texttt{survival}
+package
+
+directly on the \texttt{veteran} data from Table~\ref{tab:vet:raw}. In order to
+fit PEMs and PAMMs, however, we need to transform the data into the piece-wise
+exponential data (PED) format, similar to the exemplary data  presented in
+Table~\ref{tab:example:PED} using the \texttt{split\_data} function from the
+\code{pammtools} package.
+
+
+Note that this data augmentation substantially increases the data set size: in
+this case, the original data from Table~\ref{tab:vet:raw} contain $n=131$
+individuals ($=$rows), while the data in piece-wise exponential format have $5392$
+rows if all unique event and censoring times are used as interval cut-points.
+In addition, several auxiliary variables are constructed, see Table~\ref{tab:vet:ped}.
+\begin{table}[!b]
+\caption{Veterans' Administration lung cancer study data after transformation to
+the piece-wise exponential data (PED) format (first six rows of subject~1).}
+\label{tab:vet:ped}
+%\vspace{10pt}
+\begin{center}
+\begin{tabular}{rrrrrrrcr}
+  \hline
+id & tstart & tend & interval &  offset & ped\_status & trt & $\ldots$ & prior \\
+  \hline
+1 & 0 & 1 & (0,1] & 0   & 0 & 1 & $\ldots$ & 1 \\
+1 & 1 & 2 & (1,2] & 0   & 0 & 1 & $\ldots$ & 1 \\
+1 & 2 & 3 & (2,3] & 0   & 0 & 1 & $\ldots$ & 1 \\
+1 & 3 & 4 & (3,4] & 0   & 0 & 1 & $\ldots$ & 1 \\
+1 & 4 & 7 & (4,7] & 1.1 & 0 & 1 & $\ldots$ & 1 \\
+1 & 7 & 8 & (7,8] & 0   & 0 & 1 & $\ldots$ & 1 \\
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+Based on the data from Table~\ref{tab:vet:ped} and using the \texttt{glm} function,
+a simple baseline PEM can be fitted.
+The piece-wise constant hazards for each interval are obtained simply by treating
+the intervals themselves as a factor variable, which results in the model
+specification below (using standard dummy coding, with $(\kappa_{0}, \kappa_{1}]$
+as the reference category):
+$\lambda(t) = \lambda_0(t) =
+  \exp \left(
+    \beta_0  + \sum_{j=2}^{J}\beta_{0j}I(t\in (\kappa_{j-1}, \kappa_j])
+  \right),$ where $I(t \in (a,b])$ is the indicator function for $t$ (taking value 1 if its
+argument is true, and 0 otherwise).
+Here, $\beta_{01}$ represents the $\log$ baseline hazard in interval $j=1$ and
+$\beta_{0j}$ the log-hazard deviation in interval $j$ compared to interval $j=1$.
+
+When the partition of the follow-up period uses all event and censoring times as interval cut-points
+(and no ties are present), the regression effects of the Cox model and the PEM are equivalent (see also Section~\ref{ssec:PEMpoisson}).
+
+
+Alternatively, the baseline hazard can be modeled as a regression spline using
+``discretized time'' $t_j$ as the covariate.
+A comparison of the different cumulative baseline hazard functions is presented in Figure~\ref{fig:comp:haz}.
+While the cumulative hazards of the Cox PH model and the PEM are equivalent (at the interval end-points),
+the cumulative hazard obtained by fitting a PAMM is, not surprisingly, slightly different.
+Here, as in the following, the point-wise confidence intervals always refer to
+the PAMM estimates.
+
+
+\begin{figure}[!h]
+\includegraphics[width=1\textwidth]{compar_cumhaz.pdf}
+\vspace{-40pt}
+\caption{Comparison of the cumulative hazard estimates obtained by a Cox PH model
+(Nelson-Aalen), a PEM and a PAMM.}
+\label{fig:comp:haz}
+\end{figure}
+
+
+\subsection{Models Including Covariates}\label{ssec:withCovars}
+In this section, we incorporate conventional covariate effects into the models.
+We restrict ourselves to the case of time-constant covariates in this section,
+while the usage of TDCs is described in Section~\ref{subsec:tdc}.
+We begin by fitting a classical Cox PH model to the original data from
+Table~\ref{tab:vet:raw} using the \texttt{coxph} function, with a linear
+time-constant effect for the treatment variable ({\it trt}) and a nonlinear
+time-constant effect for {\it karno}. The corresponding hazard is then specified
+by
+$
+\lambda(t|\bfx) = \lambda_0(t)\exp \left(\beta_1I(trt=1) + f(\text{\emph{karno}})\right)\,,
+$
+
+where the {\it age} effect is estimated using P-Splines \citep{Eilers1996} and
+the ``optimal" degrees of freedom have been determined by AIC \citep{HurSimTsa:98},
+which can be done by setting the \texttt{df} argument of the \texttt{coxph}
+function equal to zero.
+
+Similarly, based on data in PED format (cf.  Table~\ref{tab:vet:ped}), we can
+fit the corresponding PAMM, simply by including a nonlinear effect
+$f(karno)$ into the linear predictor:
+$
+\lambda(t|x)=~\exp(f_{0}(t_j) + \beta_1I(trt=1) + f(karno)).
+$
+
+Actual estimation can be done by, e.g., using the \texttt{gam} function from
+\texttt{mgcv}. By default, thin plate regression splines are used for such
+effects in \texttt{mgcv}, but here we use P-Splines for direct comparison with
+the Cox routine. The ``optimal" effective degrees of freedom
+({\it edf}\,) can be chosen by maximizing a Generalized Cross Validation, REML
+or ML criterion \citep{Wood2017,Wood:2011}.
+
+
+Figure~\ref{fig:comp:smo} displays the comparison of the smooth effect
+estimates obtained by the two approaches. Both effects exhibit a decreasing
+effect with increasing Karnofsky score ({\it edf}\,: 4.03 for Cox; 4.02 for PAMM)
+and have very similar shapes. The effect of treatment  is not significantly different from zero for
+both approaches ($p$-values of corresponding t-tests: 0.11 for Cox; 0.16 for~PAMM).
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{compar_smooth.pdf}
+\vspace{-20pt}
+\caption{Comparison of nonlinear Cox PH model and PAMM estimates.}
+\label{fig:comp:smo}
+\end{center}
+\end{figure}
+
+\subsection{Time-varying effects}\label{ssec:timevary}
+In the following sections, we focus on time-varying effects, i.e., effects of the
+form $f(x, t)$ for varying degrees of complexity as summarized in Table~\ref{tab:tvEffects},
+and illustrate the specification of these different effect types as well
+as their estimation with PAMMs.
+
+\subsubsection{Stratified baseline}\label{sssec:stratifiedPH}
+In many cases it is unreasonable to assume that the baseline hazard is the
+same for subjects on different levels of a categorical variable.
+In that case, the proportional hazards assumption is violated.
+To avoid this issue, so-called \emph{stratified} PH models
+(\citealp[Ch.\ 9.3]{klein1997}; also stratified Cox model in the context of Cox models)
+have been proposed,
+where a separate baseline is estimated for each sub-group,
+while the effects of other covariates are identical for all subjects.
+Let $z$ be a categorical variable with categories $k=1,\ldots, K$. A
+PH model stratified with respect to $z$ is then defined by
+%equation \eqref{eq:stratifiedPH}.
+\begin{equation}\label{eq:stratifiedPH}
+\lambda(t|z, x) = \lambda_{0k}(t)\exp(\bfx'\bsbeta)\,,
+\end{equation}
+where $\lambda_{0k}(t)$ are the group-specific baseline hazards. In the Cox
+framework, $\bsbeta$ is estimated through the partial likelihood approach as
+usual and the baseline $\lambda_{0k}(t)$ is estimated non-parametrically for
+each group $k$.
+
+In the context of PAMMs, the group-specific baseline hazards can be regarded as an
+interaction of the form $f(t_j)\cdot z$ between a (nonlinear) function of (discretized) time
+and a categorical variable, as defined in equation \eqref{eq:statifiedPAMM}:
+\begin{equation}\label{eq:statifiedPAMM}
+\lambda(t|z, \bfx) = \exp
+\left(
+   f_{0k}(t_j)I(z=k) + \bfx'\bsbeta
+\right).
+\end{equation}
+Here, the individual baseline-hazards are again represented via linear
+combinations of known basis functions $B(\cdot)$ and estimated basis coefficients
+$\gamma$, such that $f_{0k}(t_j)=\sum_{m=1}^{M}\gamma_{0km}B_m(t_j)$. In the
+notation above we absorbed group specific intercepts $\beta_{0k}$
+(i.e., main effects of $z$) into the baseline terms $f_{0k}$ for brevity.
+When specifying the model in \Rlang, however, the group variable $z$ must
+usually be included as a separate effect as well
+(cf. the \code{strata} vignette in Table \ref{tab:vignettes}).
+
+
+For illustration consider patients with different cell-types in the Veteran's data.
+Figure~\ref{fig:stratifiedPH} shows the cumulative baseline hazard estimates for the
+different cell-types using stratified Cox and stratified PAMM procedures,
+indicating that the two models are in good agreement. One difference
+between the two models, as fitted in the example, is the choice of cut-points.
+For the stratified Cox model, cut-points occur at respective event times in the
+different groups, while in the stratified PAMM model, identical cut-points
+are used to estimate the baseline hazards in all groups.
+
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=1\textwidth]{stratifiedPH.pdf}
+\end{center}
+\vspace{-30pt}
+\caption{Cumulative hazard estimates using a stratified Cox compared to a
+stratified PAMM approach.}
+\label{fig:stratifiedPH}
+\end{figure}
+%\clearpage
+
+\subsubsection{Linear, nonlinearly time-varying effects}\label{sssec:linNLtv}
+
+Next, we showcase effects of the form $f(t)\cdot x$, where
+$x$ is continuous. In the GAMM literature these models are known as
+varying coefficient models \citep{Hastie1993};
+here the effect of $x$ varies over time and thus constitutes a classical use case
+of time-varying effects. Note that the inclusion of time-varying effects
+invalidates the PH assumption, thus this additional flexibility can complicate
+interpretation. For illustration, we fit a time-varying effect of the
+Karnofsky score (KS, $x_{karno}$). For this association, a specific logarithmic functional form
+of the time variation
+$
+f(x_{\text{\emph{karno}}}, t)=f(t)\cdot x_{\text{\emph{karno}}} =
+  \left(\beta_{\text{\emph{karno}}}  + \beta_{\text{\emph{karno}},t}\log(t+20)\right)\cdot x_{\text{\emph{karno}}}
+$
+is frequently assumed.\footnote{Compare discussion in the \code{timedep} vignette of
+the \code{survival} package.}
+
+In the PAMM context such effects can be specified by a linear interaction
+between $x_{\text{\emph{karno}}}$ and a $\log(t_j+20)$ transformation of (discretized) time.
+However, usually we don't know the precise functional form of $f(t_j)$ in advance and
+want to estimate it from the data, such that
+$\lambda(t|\bfx)=\exp(f_0(t_j) + f(t_j)\cdot x_{\text{\emph{karno}}})$.
+This can be done, e.g., by representing $f(t_j)\cdot x_{\text{\emph{karno}}}=\sum_{m=1}^M \left(\gamma_{m} B_{m}(t_j)\right)\cdot x_{\text{\emph{karno}}}$ in a basis function expansion as described in Section~\ref{ssec:pam}.
+Figure~\ref{fig:linSmoothTVKarno} shows that, in this case, the differences
+between the estimates using a pre-specified transformation of time and estimates
+of $f(t_j)$ using semiparametric regression are negligible,
+although the semiparametric estimate seems to ``level off" after $t=150$.
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=1.1]{linearSmoothTVkarno.pdf}
+\end{center}
+\vspace{-30pt}
+\caption{Comparison of estimates for the nonlinearly time-varying effect
+of the Karnofsky score.}
+\label{fig:linSmoothTVKarno}
+\end{figure}
+
+\subsubsection{Nonlinear, nonlinearly time-varying effects}\label{sssec:nlNLtv}
+In this section, we consider effects of the form $f(x,t)$, where we assume that
+$x$ potentially has a nonlinear effect that also varies over time nonlinearly,
+estimated by penalized splines. We continue the example from Section~\ref{sssec:linNLtv},
+except that now $f(x_{\text{\emph{karno}}},t_j)$ will be modeled as a
+two-dimensional smooth function using a tensor product representation, such that
+$f(x_{\text{\emph{karno}}},t_j)=\sum_{m=1}^M\sum_{\ell=1}^{L}\gamma_{m\ell}B_m(x_{\text{\emph{karno}}})B_\ell(t_j)$.
+
+The resulting estimate is depicted in Figure~\ref{fig:karnoTensor}.
+Focusing on \emph{vertical} ``slices'' through the heat map on the left, we can
+see the effect of the Karnofsky score (KS) at different times.
+For example, at the beginning of the follow-up ($t=1$), low KS values are
+associated with higher hazards, while high KS values are associated with lower
+hazards, i.e., very similar to the smooth, time-constant effect in Figure
+\ref{fig:linSmoothTVKarno}. For later time-points (e.g.\ $t=300$), the effect of
+KS is more homogeneous and generally closer to zero even for extreme values of KS.
+Focusing on \emph{horizontal} ``slices'' through the heat map on the left,
+on the other hand, we can see how the hazard associated with different Karnofsky
+scores changes over time. A KS of 40, for example, is associated with a much
+higher hazard (and, hence, decreased survival probability) at the beginning,
+decreases after some time and then increases again slightly, while patients with
+a KS close to 100 seem to have a lower hazard at the beginning, which
+increases towards the end of the follow-up.
+
+This is consistent with a frequent observation in medical studies showing that
+the association between health scores measured at baseline and hazard rates becomes
+weaker or even diminishes completely over the course of the follow-up.
+Such a conclusion can be drawn here as well,
+considering the high uncertainty of the estimates for later time points.
+Thus, such bivariate effect functions can provide a more complete and realistic
+picture of time-variation in the association between the hazard and the Karnofsky
+score at baseline (increasing towards 0 for higher KS values, decreasing towards
+0 for lower KS values), compared to the analyses presented in
+Sections \ref{ssec:withCovars} and \ref{sssec:linNLtv}.
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=0.99\textwidth]{karnoTEgarphs.pdf}
+\vspace{-10pt}
+\caption{A heat map visualization of the nonlinear, nonlinearly time-varying
+effect of the KS variable on the log-hazard scale (left panel).
+The middle and right panel of the figure depict slices through the left panel,
+fixing either specific values of the KS (mid-panel) or specific values
+of time (right panel). Grey regions in the left panel reflect combinations of
+$x_{karno}$ and $t$ where no data was observed. Intervals are pointwise $\pm 2$ standard deviations. Note that the heat map represents a step function over time; we show a smooth surface instead for better presentation.}
+\label{fig:karnoTensor}
+\end{center}
+\end{figure}
+
+\subsection{Time-dependent covariates}\label{subsec:tdc}
+Here we describe how one can incorporate time-dependent covariates (TDCs) in the framework of PAMMs.
+Because the Veteran's data does not contain TDCs, we switch to a different standard example known from the literature, the well-known recidivism data first presented in \cite{Rossi1980}.
+The data contains information on 432 convicts released from prison.
+The outcome of the study was the number of weeks until the first rearrest.
+Maximal follow-up time was 52 weeks. Baseline covariates include
+financial aid ({\it fin}; yes/no), {\it age} at time of release (in years),
+{\it race} (black/other), work experience prior to incarceration ({\it wexp};
+yes/no), marital status ({\it mar;} married/unmarried), released on parol
+({\it paro}; yes/no), and number of prior convictions ({\it prio}).
+
+Furthermore, the data set contains a TDC, which indicates the weekly employment
+status for each subject until end of follow-up or first rearrest.
+For comparison, we largely follow the extensive analysis of the data presented
+in \cite{Fox2011}, who use extended Cox regression, except that we model
+the effects of age and prior convictions using P-splines \citep{Eilers:98}.
+In this example, the data transformation required to fit the Cox model is
+equivalent to the data transformation needed to apply PAMMs. More precisely, we create a data set where each subject has one row for each week of follow-up, as the employment status can potentially change every week.
+
+A subset of the transformed data is
+presented in Table \ref{tab:prisonlong}, exemplary for subjects 1 and 2.
+Note that the event indicator ({\it arrest}) is 0 up to the week of the event.
+Covariates other than employment remain constant over time. Note that the
+employment variable is ``lagged" by one week as it is unknown if unemployment
+preceded arrest or vice versa in any given week. Consequently, the data start
+with the interval $(1, 2]$, as the ``lagged'' employment status for week 1
+(interval $(0, 1]$) would not be defined.
+Note that we can exclude the offset $o_{ij}$ for these weekly data, as
+it is $\log(1)=0$ for all observations.
+
+% latex table generated in R 3.4.0 by xtable 1.8-2 package
+% Tue May  2 14:52:47 2017
+\begin{table}[!h]
+\caption{Exemplary data in counting-process format needed to fit extended Cox
+regression and PAMMs. Subject 1 was unemployed throughout the follow-up and
+rearrested in week 20, subject 2 was unemployed until week 8, found employment
+for weeks 9 through 13 and became unemployed again thereafter (data in the
+table with lag=1). In week 17 the subject was rearrested.
+The other covariates are only measured at baseline and remain constant.}
+\label{tab:prisonlong}\
+
+\centering
+\begin{tabular}{rrrrrrrrr}
+  \hline
+subject & start  & stop   & arrest & employed (lag=1) & fin    & age    & $\cdots$ & mar \\
+\hline
+1       & 1      & 2      & 0      & 0        & 0      & 27     & $\cdots$ & 0 \\
+\vdots  & \vdots & \vdots & \vdots & \vdots   & \vdots & \vdots & $\cdots$ & \vdots\\
+1       & 19     & 20     & 1      & 0        & 0      & 27     & $\cdots$ & 0 \\
+\hline
+2       & 1      & 2      & 0      & 0        & 0      & 18     & $\cdots$ & 0 \\
+\vdots  & \vdots & \vdots & \vdots & \vdots   & \vdots & \vdots & $\cdots$ & \vdots\\
+2       & 8      & 9     & 0      & 0        & 0      & 18     & $\cdots$ & 0 \\
+2       & 9      & 10     & 0      & 1        & 0      & 18     & $\cdots$ & 0 \\
+\vdots  & \vdots & \vdots & \vdots & \vdots   & \vdots & \vdots & $\cdots$ & \vdots\\
+2       & 13     & 14     & 0      & 1        & 0      & 18     & $\cdots$ & 0 \\
+2       & 14     & 15     & 0      & 0        & 0      & 18     & $\cdots$ & 0 \\
+2       & 15     & 16     & 0      & 0        & 0      & 18     & $\cdots$ & 0 \\
+2       & 16     & 17     & 1      & 0        & 0      & 18     & $\cdots$ & 0 \\
+   \hline
+\end{tabular}
+\end{table}
+
+
+Figure~\ref{fig:prisonAllEffects} displays the
+comparison of the extended Cox regression and PAMM applied to the recidivism data. Both the fixed coefficients (left panel) and the smooth estimates (right panel) are generally in good agreement.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics{prisonAllEffects.pdf}
+\end{center}\vspace{-10pt}
+\caption{Left panel: Coefficient estimates using extended Cox regression and
+PAMM, respectively. Points indicate the estimates on the log-hazard scale.
+Error bars indicate the 95\% confidence intervals.
+Right panel: Smooth estimates for age (top) and number of prior convictions (bottom).}
+\label{fig:prisonAllEffects}
+\end{figure}
+
+However, the nonlinear estimates of the Cox model are more ``wiggly" compared to the PAM estimates (using default settings for both algorithms), which reflects the different approaches for the selection of the optimal smoothness penalty parameters. Being employed in the previous week is clearly associated with a decreased hazard of rearrest compared to being unemployed in the previous week.
+So convicts that recently had a job seem to be less likely to be arrested.
+For both the PAM and the Cox PH approach the remaining fixed effects are not significant. Finally, it turns out that for both modelling approaches increased age is generally associated with a decreased hazard, whereas convicts with a high number of prior convictions are more likely be re-arrested. However, while for the Cox PH approach both effects are rather wiggly, the PAM estimates are almost linear and very smooth and, hence, somewhat easier to interpret.
+
+Note that we only consider the employment status of the previous week, thus the marginal hazard increase in week 21 for a subject that was employed for 19 weeks and is unemployed in week
+20 is the same as for a subject that was unemployed from the beginning.
+A more complex analysis would account for the complete employment history, i.e.,
+use a cumulative effect of employment, for
+example via the weighted cumulative exposure (WCE) approach \citep{Sylvestre2009},
+such that $f(x, t)=\sum_{u\leq t}=w(t-u)x(u)$, where weights $w(t-u)$ can again
+be estimated using penalized splines or similar approaches. An implementation of
+this method can be found in corresponding \Rlang-package \code{WCE}.
+\cite{BenEtAl:16} describe an implementation of such effects for PAMs.
+
+
+%\clearpage
+\section{Software}\label{sec:software}
+While PAMMs are essentially GAMMs and any statistical software (or programming
+language) could be used to fit these models, the technicalities
+of data transformation, interpretation and visualization often hinder their
+application by practitioners in our experience. Therefore, in addition to this tutorial,
+we also provide an \Rlang\ add-on package called \code{pammtools}
+\citep{Ben:2017}\footnote{For the most current version of the package please visit
+\url{https://adibender.github.io/pammtools/}.},
+which provides convenience functions that facilitate the application of PAMMs.
+Individual sections and concepts described in this article
+are accompanied by vignettes on the \code{pammtools}
+\href{https://adibender.github.io/pammtools/}{homepage} that illustrate
+the concrete application in the statistical programming language
+\Rlang~(\citealp{Team2016}).
+Table \ref{tab:vignettes} gives an overview of all vignettes currently available
+on the site. Most conveniently, the vignettes can be accesed directly
+from the homepage at \url{https://adibender.github.io/pammtools/articles}.
+Additionally, you can call
+\href{https://adibender.github.io/pammtools/reference/pammtools.html}{\code{?pammtools}}
+to obtain a package overview and links to the individual vignettes.
+The package (and its vignettes) thus also serves as the code supplement for this
+paper.
+
+\begin{table}[!hbtp]
+\caption{Overview of vignettes and their content provided in the package
+\code{pammtools}. To access the vignettes visit
+\url{https://adibender.github.io/pammtools/articles/}.}
+\label{tab:vignettes}
+\vspace{15pt}
+\begin{tabular}{r|p{12cm}}
+  Vignette &Description \\
+  \hline
+  \href{https://adibender.github.io/pammtools/articles/data-transformation.html}
+  {Data Transformation} & Details (and respective \Rlang-code) on transformation
+  of conventional time-to-event data into PED format (cf. Section~\ref{ssec:DataTrafo})\\
+  \href{https://adibender.github.io/pammtools/articles/basics.html}{Basics} &
+  Basic modeling and equivalence to Cox PH model\\
+  \href{https://adibender.github.io/pammtools/articles/baseline.html}{Baseline}
+  & Baseline estimation and visualization (cf. Section~\ref{sssec:baseline})\\
+  \href{https://adibender.github.io/pammtools/articles/splines.html}{Splines}
+  & Linear, time-constant effects of the form $f_k(x_{i,k})$
+  (cf. Section~\ref{ssec:withCovars})\\
+  \href{https://adibender.github.io/pammtools/articles/strata.html}{Strata}    &
+  Stratified PH models  $f_k(t)I(z=k)$ (cf. Section~
+  \ref{sssec:stratifiedPH})\\
+ \href{https://adibender.github.io/pammtools/articles/tveffects.html}{TV
+ effects}
+ & Details on fitting models with time-varying effects
+  of different complexity, e.g. $x_{i,k}\cdot f_k(t)$ or $f_k(x_{i,k}, t)$
+  (cf. Sections~\ref{sssec:linNLtv} and \ref{sssec:nlNLtv})\\
+  \href{https://adibender.github.io/pammtools/articles/tdcovar.html}{TD
+  covariates}
+  & Details on fitting models with time-varying covariates
+  (cf. Sections~\ref{subsec:tdc} )\\
+  \href{https://adibender.github.io/pammtools/articles/frailty.html}{Frailty} &
+  Example of fitting Gaussian frailty models and comparison
+  to the \code{coxme} package. \\
+  \href{https://adibender.github.io/pammtools/articles/convenience.html}{Convenience}
+  & Demonstration of convenience functions for
+  pre-/post-processing of PEMs/PAMMs, visualization and model comparisons
+\end{tabular}
+\end{table}
+
+Although this paper is focused on \Rlang\ and on fitting the
+PEMs/PAMMs with the \code{mgcv} package, any software that can fit GLM(M)s or
+GAM(M)s could be used to fit this model class. For example, the standard
+\code{glm} function could be used to fit PEMs, but does not offer many of
+the advanced functions from \code{mgcv::gam} and offers no penalized estimation
+of smooth effects. Additionally, the package \code{pch} provides the function
+\code{pchreg}, that fits a variation of PEMs for right-censored and left-truncated
+data using a custom routine, but does not offer penalized estimation or other
+convenience functions for pre- and postprocessing \citep{Frumento2016}.
+If random effects (or frailty terms, as they are usually
+referred to in survival analysis) need to be included, the \code{lme4} library
+\citep{BaEtAl:2015} offers many options, although simple random effect structures are also
+supported by \code{mgcv::gam}. Note that Cox-PH models are also supported by
+\code{mgcv} (\code{family="cox.ph"}), thus penalized estimation of smooth,
+nonlinear effects of time-constant covariates $f_k({x_k})$ are also directly
+available for the Cox model. However, these cannot be used to fit the extended
+Cox model with time-varying effects or time-dependent covariates. Memory efficient
+big data estimation with the function \code{bam} is also not available for
+\code{family="cox.ph"}.
+
+In addition, regularization
+techniques such as the LASSO and model-based boosting, for example via
+\texttt{glmnet} \citep{FriEtAL:2010} or \texttt{mboost} \citep{Hotetal:2016},
+respectively, can also be applied to PEMs and PAMMs.
+Although the \texttt{glmnet} package has recently implemented Cox
+models (see \citealp{SimEtAl:2011}), %at present
+only rather simple Cox models can be fitted. For example, neither TDCs nor nonlinear effects are available. If \texttt{glmnet} is used to fit a PEM, however, TDCs can be included.
+
+Within the framework of \texttt{mboost}, the \texttt{glmboost}  routine
+with argument \texttt{family=CoxPH()} can be used for time-to-event  data if the
+proportional hazards assumption holds, but does not allow for TDCs. With model-based boosting of PAMMs via \texttt{mboost}'s \texttt{gamboost()} function for fitting GAMs
+(compare, e.g., \citealp{HotBue:2006}), the entire flexibility of boosted GAMMs is available for survival analysis, however.
+For more general details on boosting methods, compare also the tutorial on
+boosting approaches by \citet{MayHof:2017} in this
+special issue.
+
+
+%\clearpage
+\section{Discussion}
+The focus of this tutorial paper has been on the application of
+semiparametric regression in the context of continuous-time survival analysis
+using piece-wise exponential (additive) models, which we denote by PEMs and PAMMs.
+We first introduced the general idea of the classical PEM and then described its semiparametric extension, the PAMM.
+We illustrated the use of both approaches, starting with the required
+pre-processing and data augmentation steps and simple standard models, and then  turned to
+successively more advanced applications.
+In this way, we hope to provide practitioners with a useful addition to their
+methodological toolbox for time-to-event data analysis, which is firmly embedded
+in the familiar context of generalized additive models, allowing them to exploit
+the robust, well-documented and highly developed software implementations
+available for this model class.
+
+The results of PEMs and PAMMs are generally in good agreement with
+conventional Cox-type modeling for most applications and the concrete choice
+of model type can depend on many factors, including familiarity, availability
+of software implementations, data structure and so on. Below we summarize some
+of the strengths of PAMMs that may guide the decision process:
+
+\begin{itemize}
+\item Firmly grounded in modern penalization methods, PAMs are a legitimate
+method for the analysis of time-to-event data and not just a ``hack" that can
+be used in case other options fail. For example, in Section~\ref{sec:Applications}
+we demonstrated that we can use PEMs/PAMs to obtain estimates very similar to the
+estimates of Cox type models.
+While it is true that for simple use cases where the proportional hazards
+assumption holds
+the Cox model has a clear advantage over PAMs in terms of computational cost
+since the data does not have to be expanded, these advantages disappear whenever
+time-varying effects or time-dependent covariates need to be included,
+cf.~Section~\ref{ssec:timevary} and~\ref{subsec:tdc}.
+In our experience, the differences in computation time for standard
+applications are usually negligible anyway.
+
+\item While Cox models may have
+computational advantages in simpler use cases (e.g., when the PH assumption holds
+and the data do not have to be expanded), their computational advantage
+disappears whenever time-varying effects or time-dependent covariates need to
+be included, cf.~Section~\ref{ssec:timevary} and~\ref{subsec:tdc}. In fact,
+PAMMs could be more efficient in some cases, as the extended Cox model
+requires splits at each event time, while split points for PAMMs could be
+chosen more crudely.
+
+\item In the past, methodological and algorithmic advances in
+semiparametric regression first became available in the framework of GAMMs.
+Thus, for example, the important innovations implemented in the \code{mgcv} package,
+such as REML-optimal estimation of penalized effects \citep{Wood2016b},
+reliable and generally applicable tests for semiparametric terms \citep{Wood2012},
+locally adaptive spline smooths \citep{Wood:2011}, double-penalty variable
+selection strategies that can shrink effect estimates to zero \citep{Marra2011}
+similar to the (group) LASSO \citep{MeiGeeBue:2008},
+highly memory efficient estimation on huge data sets \citep{Wood2016},
+and many more, are directly available for the estimation of PAMMs.
+Similarly, in the past, regularization approaches such as boosting became available
+for GAMMs long before being ported to Cox-type models.
+
+\item In Section~\ref{sssec:linNLtv} it was shown how easily linear,
+but nonlinearly time-varying effects of the form $f(t)\cdot x$ can be
+incorporated in the framework of PAMMs, being directly available within the
+syntax of \texttt{gam}. In contrast, in conventional Cox modeling either a
+particular functional form of the time variation has to be assumed
+(as illustrated in Section~\ref{sssec:linNLtv}) or further pre-processing steps
+become necessary, such as manual construction of the corresponding spline design
+matrices in combination with suitable penalization (see, e.g., the simulation
+study in \citealp{GroHasTut:2017}, for an application
+of this strategy).
+
+\item Time dependent-covariates can be embedded in this framework naturally
+(cf. Section \ref{subsec:tdc}), and even more complicated effects of TDCs,
+for example the WCE approach by \cite{Sylvestre2009} or the DLNM of
+\cite{Gasparrini2017}, where cumulative time-varying effects of TDCs are
+considered, can be directly incorporated with fairly little additional effort.
+
+\end{itemize}
+
+
+With respect to assessment of model quality in the context of PEMs/PAMMs,
+we advise not to use conventional measures like, e.g.\ the deviance,
+but rather use dedicated measures developed specifically for survival analysis
+like the Brier score or the concordance index \citep{gerds_estimating_2013},
+which have the secondary advantage of being directly comparable with evaluation
+metrics for other model classes for survival analysis.
+Finally, note that in this article we did not address any issue regarding
+estimation or inference, for which we refer to \cite{Wood2017,Wood:2011}.
+
+%%% Acknowledgements (if any)
+%%% ------------------------------------------
+%\section*{Acknowledgements}
+%We want to thank\ldots
+
+%\clearpage
+\bibliography{Remote,literatur}
+
+
+\end{document}
