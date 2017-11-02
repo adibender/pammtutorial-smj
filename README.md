@@ -2,9 +2,9 @@
 
 To reproduce the paper
 
-    - run the `graphics-tutorial.R` script with the working directory set to the `Paper` folder
+  - run the `graphics-tutorial.R` script with the working directory set to the `Paper` folder
 
-    - Build the `pamtutorial.tex` LaTeX file.
+  - Build the `pamtutorial.tex` LaTeX file.
 
 
 ### Notes
@@ -15,7 +15,7 @@ To reproduce the paper
 - In the link above, you will also find zipped files of the package source code
 as well as installable binaries for linux/mac and windows
 
-- The code to install v.0.0.3.1 version of the `pammtools`  package is already
+- The code to install v0.0.3.1 version of the `pammtools`  package is already
 contained in the `graphics-tutorial.R` script
 
 - For completeness the installable packages for linux/mac and windows are also
