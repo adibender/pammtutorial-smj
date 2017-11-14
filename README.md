@@ -1,4 +1,5 @@
 ## Code and materials to reproduce graphics and analyses in "A generalized additive model approach to time-to-event analysis"
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1048906.svg)](https://doi.org/10.5281/zenodo.1048906)
 
 To reproduce the paper
 
