@@ -1,6 +1,3 @@
-## initialize packrat (install same version of packages that was used by the
-# authors and saves them to a local library)
-
 ## load needed libraries
 library(ggplot2)
 theme_set(theme_bw())
@@ -129,13 +126,12 @@ ggplot(int_df, aes(x = tend)) +
   geom_ribbon(aes(ymin = cumu_lower, ymax = cumu_upper), alpha = 0.2) +
   geom_step(aes(y = hazard,    col = "Nelson-Aalen")) +
   geom_line(aes(y = pemch,     col = "PEM")) +
-  geom_line(aes(y = cumu_hazard, col = "PAM")) +
+  geom_line(aes(y = cumu_hazard, col = "PAMM")) +
   scale_color_manual(
     name   = "Method",
-    values = c("PEM" = Set1[2],"PAM" = 1,"Nelson-Aalen" = Set1[1])) +
+    values = c("PEM" = Set1[2],"PAMM" = 1,"Nelson-Aalen" = Set1[1])) +
   theme(legend.position = "bottom") +
-  ylab(expression(hat(Lambda)(t))) + xlab("t") +
-  ggtitle("Comparison of cumulative hazards using Nelson-Aalen vs. PEM vs. PAM")
+  ylab(expression(hat(Lambda)(t))) + xlab("t")
 dev.off()
 
 ## difference between pem and nelson-allen (evaluated at interval end points)
@@ -162,10 +158,10 @@ karno_df <- vet_ped %>%
 # Figure comparing smooth effect estimates of Cox PH and PAM models
 pdf("compar_smooth.pdf", width=4, height=2)
 ggplot(karno_df, aes(x=karno, ymin=low, ymax=high)) +
-  geom_line(aes(y=fit, col="PAM")) +
+  geom_line(aes(y=fit, col="PAMM")) +
   geom_ribbon(alpha=0.2) +
   geom_line(aes(y=cox, col="Cox PH"))+
-  scale_colour_manual(name="Method",values=c("Cox PH"=Set1[1],"PAM"=1)) +
+  scale_colour_manual(name="Method",values=c("Cox PH"=Set1[1],"PAMM"=1)) +
   xlab(expression(x[plain(karno)])) + ylab(expression(hat(f)(x[plain(karno)])))
 dev.off()
 
@@ -198,7 +194,7 @@ pinf <- vet_ped %>%
 
 pdf("stratifiedPH.pdf", width=6, height=3)
 gg.bz +
-    geom_line(data=pinf, aes(x=tend, y=cumu_hazard, group=strata, col="stratified PAM")) +
+    geom_line(data=pinf, aes(x=tend, y=cumu_hazard, group=strata, col="stratified PAMM")) +
     geom_ribbon(data=pinf, aes(x=tend, y=cumu_hazard, ymin=cumu_lower, ymax=cumu_upper), alpha=0.2) +
     facet_wrap(~strata, nrow=1) +
     scale_color_manual(name="Method", values=c(Set1[1], 1)) +
@@ -230,18 +226,19 @@ pam2 <- gam(ped_status ~ s(tend) + trt + prior + s(tend, by = karno),
     data = vet_ped, offset = offset, family = poisson())
 term_df <- vet_ped %>%
   ped_info() %>%
-  add_term(pam2, term = "karno") %>%
-  mutate_at(c("fit", "low", "high"), ~ ./karno) %>%
+  add_term(pam2, term = "karno")
+term_df <- term_df %>%
+  mutate_at(c("fit", "low", "high"), .funs = funs(./karno)) %>%
   mutate(
     cox.fit = coef(vfit)["karno"] + coef(vfit)["tt(karno)"]*log(tend + 20),
     pam.fit = coef(pam)["karno"]  + coef(pam)["karno:logt20"]*log(tend + 20))
 
 pdf("linearSmoothTVkarno.pdf", width=5, height=2)
 ggplot(term_df, aes(x = tend, y = fit)) +
-    geom_step(aes(col="PAM with penalized spline")) +
+    geom_step(aes(col="PAMM with penalized spline")) +
     geom_stepribbon(aes(ymin = low, ymax = high), alpha = 0.2) +
     geom_line(aes(y = cox.fit, col = "Cox with log-transform")) +
-    geom_step(aes(y = pam.fit, col = "PAM with log-transform")) +
+    geom_step(aes(y = pam.fit, col = "PAMM with log-transform")) +
     scale_color_manual(name="Method", values = c(Set1[1:2], "black")) +
     xlab("t") + ylab(expression(hat(f)(t)))
 dev.off()
@@ -397,7 +394,7 @@ all_eff <- purrr::map_df(
     tidy_fixed(pam),
     tidy_fixed(cph)[-c(2:3, 8:9), ]),
   bind_rows, .id="Model") %>%
-  mutate(Model = factor(Model, levels=2:1, labels=c("Cox-PH", "PAM")))
+  mutate(Model = factor(Model, levels=2:1, labels=c("Cox-PH", "PAMM")))
 
 
 ## coefficient plot (fixed effects) recidivism data
@@ -419,10 +416,10 @@ pinf <- prison_long %>%
 
 
 gg.age <- ggplot(pinf, aes(x=age, y=fit)) +
-  geom_line(aes(col="PAM")) +
+  geom_line(aes(col="PAMM")) +
   geom_ribbon(aes(ymin=low, ymax=high), alpha=0.2) +
   geom_line(aes(y=cphfit, col="Cox-PH")) +
-  scale_colour_manual(name="Method", values=c(Set1[1], 1), breaks=c("Cox-PH", "PAM")) +
+  scale_colour_manual(name="Method", values=c(Set1[1], 1), breaks=c("Cox-PH", "PAMM")) +
   xlab("Age") + ylab(expression(hat(f)(x))) +
   theme(legend.position="none")
 ## prio
@@ -433,7 +430,7 @@ pinf.prio <- prison_long %>%
   mutate(cphfit = predict(object=cph, ., type="terms")[,"pspline(prio)"])
 
 gg.prio <- ggplot(pinf.prio, aes(x=prio, y=fit)) +
-  geom_line(aes(col="PAM")) +
+  geom_line(aes(col="PAMM")) +
   geom_ribbon(aes(ymin=low, ymax=high), alpha=0.2) +
   geom_line(aes(y=cphfit, col="Cox-PH")) +
   scale_colour_manual(name="Method", values=c(Set1[1], 1)) +
